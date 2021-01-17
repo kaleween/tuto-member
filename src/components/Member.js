@@ -3,8 +3,10 @@ import React from 'react';
 // Exemple component stateless
 
 const Member = () => {
+    const name = 'josé'
+
     return(
-        <h2>Member of my member</h2>
+        <h2>Member of my : { name.toUpperCase() }</h2>
     )
 }
 
