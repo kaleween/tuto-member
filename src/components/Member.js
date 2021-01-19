@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
-
 // Exemple component stateless
 
-const Member = ({ name, age, children }) => {
+const Member = ({ name, age, children, hideName, handleChange }) => {
     return(
         <Fragment>
             <h2 style={{ 
@@ -10,6 +9,8 @@ const Member = ({ name, age, children }) => {
                 color: 'white' }}>
                 Member of my : { name.toUpperCase() } : { age }
             </h2>
+            <input value={name} onChange={handleChange} type='text' />
+            <button onClick={hideName}>X</button>
             { children ? <p>{ children }</p> : <Fragment/> }
         </Fragment>
     )

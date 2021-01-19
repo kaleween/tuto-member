@@ -5,26 +5,31 @@ import Button from "./components/Button/Button";
 
 const family = {
     member1: {
+      id: 1,
       name: 'josé',
       age: 57,
     },
     member2: {
+      id: 2,
       name: 'albert',
       age: 46,
     },
     member3: {
+      id: 3,
       name: 'robert',
       age: 67,
     },
     member4: {
-      name: 'Joy',
+      id: 4,
+      name:'Joy',
       age: 2
     },
   }
 
 class App extends Component {
   state = {
-    family
+    family,
+    isShow: false
   }
 
   handleClick = (num) => {
@@ -33,38 +38,63 @@ class App extends Component {
     this.setState({ family })
   }
 
-  handleChange = event => {
+  handleChange = (event, id) => {
     const family = { ...this.state.family }
     const name = event.target.value;
-    family.member1.name = name;
+    family[id].name = name;
     this.setState({ family })
+  }
+
+  hideName = id => {
+    const family = { ...this.state.family }
+    family[id].name = ' ';
+    this.setState({ family })
+  }
+
+  handleShowDescription = () => {
+    const isShow = !this.state.isShow;
+    this.setState({ isShow })
   }
 
   render () {
     const { title } = this.props;
-    const { family } = this.state;
+    const { family, isShow } = this.state;
+
+    let description = null;
+
+    if (isShow) {
+      description = <strong>Joyus grosse dinduss </strong>
+    }
+
+    const list = Object.keys(family)
+      .map(member => (
+        <Member
+          key={member}
+          hideName={() => this.hideName(member)}
+          handleChange={event => this.handleChange(event, member)}
+          age = {family[member].age}
+          name= {family[member].name} />
+      ))
+
     return (
       <div className='App'>
         <h1>{ title }</h1>
-        <input value={family.member1.name} onChange={this.handleChange} type='text' />
-        <Member 
-          age = {family.member1.age}
-          name= {family.member1.name} />
-        <Member 
-          age = {family.member2.age}
-          name= {family.member2.name} />
-        <Member 
-          age = {family.member3.age}
-          name= {family.member3.name} />
-        <Member 
+        { list }
+        {/* {        <Member 
           age = {family.member4.age}
           name= {family.member4.name}> 
-          <strong>Joyus grosse dinduss</strong>
-        </Member>
+          { description }
+          <button 
+            onClick={this.handleShowDescription}>
+            {
+              isShow ? 'Hide' : 'Show'
+            }
+          </button>
+        </Member>} 
         <Button
         vieillir={() => this.handleClick(2)}>
 
-        </Button>
+        </Button>*/}
       </div>
     )
   }
